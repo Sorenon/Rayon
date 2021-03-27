@@ -8,6 +8,10 @@ import dev.lazurite.rayon.core.impl.util.debug.DebugLayer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Keyboard;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.ChatHud;
+import net.minecraft.text.TranslatableText;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,9 +30,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class KeyboardMixin {
     @Shadow protected abstract void debugWarn(String string, Object... objects);
 
-    @Inject(method = "processF3", at = @At("HEAD"), cancellable = true)
+    @Shadow @Final private MinecraftClient client;
+
+    @Inject(method = "processF3", at = @At("RETURN"), cancellable = true)
     private void processF3(int key, CallbackInfoReturnable<Boolean> info) {
-        if (key == 82) { // 'r' key
+        if (key == 'R') {
             DebugLayer layer = DebugManager.getInstance().nextLayer();
 
             if (DebugManager.getInstance().isEnabled()) {
@@ -38,6 +44,9 @@ public abstract class KeyboardMixin {
             }
 
             info.setReturnValue(true);
+        } else if (key == 'Q') {
+            ChatHud chatHud = this.client.inGameHud.getChatHud();
+            chatHud.addMessage(new TranslatableText("debug.rayon.help"));
         }
     }
 }

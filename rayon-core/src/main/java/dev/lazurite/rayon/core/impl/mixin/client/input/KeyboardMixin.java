@@ -1,8 +1,8 @@
 package dev.lazurite.rayon.core.impl.mixin.client.input;
 
+import dev.lazurite.rayon.core.impl.mixin.client.render.WorldRendererMixin;
 import dev.lazurite.rayon.core.impl.physics.space.body.ElementRigidBody;
 import dev.lazurite.rayon.core.impl.physics.space.body.BlockRigidBody;
-import dev.lazurite.rayon.core.impl.mixin.client.render.DebugRendererMixin;
 import dev.lazurite.rayon.core.impl.util.debug.DebugManager;
 import dev.lazurite.rayon.core.impl.util.debug.DebugLayer;
 import net.fabricmc.api.EnvType;
@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * once, it enables rendering of {@link ElementRigidBody} objects.
  * When it's pressed again, it also enabled rendering of
  * {@link BlockRigidBody} objects in a different color.
- * @see DebugRendererMixin
+ * @see WorldRendererMixin
  */
 @Mixin(Keyboard.class)
 @Environment(EnvType.CLIENT)
